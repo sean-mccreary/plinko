@@ -1,8 +1,8 @@
-function Chip(x, y, d, c) { 
+function Chip(x, y, d, mc) { 
   // added instance variable c
   // changed this.hue to equal c, instead of Random(360)
   //changes at call in sketch.js as well 
-  this.hue = c;
+  this.hue = mc;
   var options = {
     density: 1,
     restitution: 0.25,

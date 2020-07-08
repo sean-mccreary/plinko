@@ -1,7 +1,7 @@
 var slotWidthScale = 1.05, 
     slotHeightScale = 1.25, 
     pegWidthScale = 0.025, 
-    pegHeightScale = 0.025;
+    pegHeightScale = 0.025,
     boxHeightScale = 2.5;        // multiples of the chip diameter
 
 var fontScale = 0.02;        // multiples of the canvas size
@@ -16,7 +16,8 @@ var fps = 60;        // frames per second
 var timeInterval = 5;         // seconds between two balls' departures
 
 var leftChips = [], 
-    rightChips = [], 
+    rightChips = [],
+    //customChips = [], 
     pegs = [], 
     boxEdges = [];
 
@@ -33,7 +34,9 @@ var engine = Engine.create(),
 var canvasSize;
 var fontSize; 
 var d, w, n1, n2;
+var sequence = [];
 var diameter;
+var currentIndex = 0;
 
 function setup() {
   frameRate(fps);
@@ -67,9 +70,6 @@ function setup() {
   responceSequence.size(inputWidthScale*fontSize,2*inputHeightScale*fontSize);
   responceSequence.position(inputXScale*width, width + 6.4*fontSize);
 
-
-// these buttons all need to have a mouseClicked() funciton added so that they do their settings
-
   /*
   dInput = createInput();
   dInput.size(inputWidthScale*fontSize,2*inputHeightScale*fontSize);
@@ -101,34 +101,44 @@ function setup() {
 function settingOneClick(){
   d = int(1);
   w = int(12);
+  resetLocationInString();
   alert("setting One clicked, variable d = " + d + " variable w = " + w);
 }
 function settingTwoClick(){
   d = int(2);
   w = int(8);
+  resetLocationInString();
   alert("setting Two clicked, variable d = " + d + " variable w = " + w);
 }
 function settingThreeClick(){
   d = int(3);
   w = int(12);
+  resetLocationInString();
   alert("setting Three clicked, variable d = " + d + " variable w = " + w);
 }
 function settingFourClick(){
   d = int(5);
   w = int(12);
+  resetLocationInString();
   alert("setting Four clicked, variable d = " + d + " variable w = " + w);
 }
 
 function startGame() {
+  //alert(String(responceSequence.value()[0]));
   leftChips = [];
   rightChips = [];
+  //customChips = [];
   pegs = [];
   boxEdges = [];
+  //alert("this is the problem");
+  //var customChips = responceSequence.split(""); // possible error
+  //alert("made it here");
+
   
   //d = int(dInput.value());
   //w = int(wInput.value());
-  n1 = int(3);//hardcoding 3 for now, will impliment variable inputs later
-  n2 = int(3);
+  //n1 = int(3);//hardcoding 3 for now, will impliment variable inputs later
+  //n2 = int(3);
   // keep this code for a custom set up, will be creating functions for each button,
   // the buttons will assign the values for d, w, n1, n2. 
   
@@ -138,12 +148,18 @@ function startGame() {
   else if (isNaN(w) || w < 2*d + 2 || w % 2 != 0) {
       alert("Please enter a valid even integer w of minimum 2*d + 2 for the number of open slots at the bottom.");
   }
+  /*
   else if (isNaN(n1) || n1 < 0) {
       alert("Please enter a valid integer n1 of minimum 0 for the number of chips starting at the left input.");
   }
   else if (isNaN(n2) || n2 < 0) {
       alert("Please enter a valid integer n2 of minimum 0 for the number of chips starting at the right input.");
   }
+  
+  else if (responceSequence.length == 0){
+      startGame();
+  }
+  */
   else {
     loop();
 
@@ -176,12 +192,41 @@ function continueGame() {
   loop();
 }
 
+function getLocationInString(){
+  return currentIndex;
+}
+function setLocationInString(){
+  currentIndex++;
+}
+function resetLocationInString(){
+  currentIndex = 0;
+}
+
 function draw() {
+  var lc = getLocationInString();
   background(0);
   fontSize = fontScale*width;  
   leftOutput = 0; 
   rightOutput = 0;
+  sequence = responceSequence.value().split("");
   
+  
+
+  if (frameCount % (timeInterval*fps) == 0 && lc < sequence.length && sequence[lc].localeCompare("y")==0){
+    leftChips.push(new Chip((width-d*(slotWidthScale+pegWidthScale)*diameter)/2, diameter/2, diameter, 1));
+    setLocationInString();
+    // Should be if y is input, pushes a red chip into the que on the left
+  }
+  else if (frameCount % (timeInterval*fps) == 0 && lc < sequence.length && sequence[lc].localeCompare("n")==0){
+    rightChips.push(new Chip((width+d*(slotWidthScale+pegWidthScale)*diameter)/2, diameter/2, diameter, 240));
+    setLocationInString();
+    // Shoulb be if n is input, pushes a blue chip into the que on the right
+  }
+  
+  
+
+
+  /*
   if (frameCount % (timeInterval*fps) == 0 && leftChips.length < n1) {
     leftChips.push(new Chip((width-d*(slotWidthScale+pegWidthScale)*diameter)/2, diameter/2, diameter, 1));
     //Added parameter string to end of call, red for left, hue 1 = red
@@ -192,7 +237,7 @@ else if (frameCount % (timeInterval*fps) == 0 && rightChips.length < n2) {
     //Added parameter string to end of call, blue for right, hue 240 = blue
     //Made appropriate changes in chip.js
 }
-
+*/
   
   Engine.update(engine);
   for (var i1 = 0; i1 < leftChips.length; i1++) {
@@ -208,11 +253,11 @@ else if (frameCount % (timeInterval*fps) == 0 && rightChips.length < n2) {
     rightChips[i2].show(); // the chip spawns and falls regardless of this call
     if (rightChips[i2].body.position.x>width/2-w*(slotWidthScale+pegWidthScale)*diameter/2 && rightChips[i2].body.position.x<width/2 && rightChips[i2].body.position.y>width-(pegWidthScale+boxHeightScale)*diameter && rightChips[i2].body.position.y<width-pegWidthScale*diameter) {
         leftOutput++;
-        alert("made it here");
+        
     }
     else if (rightChips[i2].body.position.x<width/2+w*(slotWidthScale+pegWidthScale)*diameter/2 && rightChips[i2].body.position.x>width/2 && rightChips[i2].body.position.y>width-(pegWidthScale+boxHeightScale)*diameter && rightChips[i2].body.position.y<width-pegWidthScale*diameter) {
         rightOutput++;
-        alert("made it here");     
+             
     }
   }
   for (var j = 0; j < pegs.length; j++) {
