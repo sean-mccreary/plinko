@@ -1,6 +1,6 @@
-function Chip(x, y, d, mc) { 
-  // added instance variable c
-  // changed this.hue to equal c, instead of Random(360)
+function Chip(x, y, dr, mc) { 
+  // added instance variable mc
+  // changed this.hue to equal mc, instead of Random(360)
   //changes at call in sketch.js as well 
   this.hue = mc;
   var options = {
@@ -9,7 +9,7 @@ function Chip(x, y, d, mc) {
     friction: 0.0,
     frictionAir: 0.0 
   };
-  this.d = d;
+  this.d = dr;
   this.body = Bodies.circle(x + random(-1,1), y, this.d / 2, options);
   World.add(world, this.body);
 }

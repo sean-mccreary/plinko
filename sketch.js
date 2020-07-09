@@ -42,33 +42,39 @@ function setup() {
   frameRate(fps);
   canvasSize = min(windowWidth, windowHeight);
   fontSize = fontScale*canvasSize;
-  createCanvas(canvasSize, canvasSize + 9*fontSize);
+  createCanvas(canvasSize, canvasSize);//removed this  (+ 9*fontSize)
   colorMode(HSB);
   stroke(255);  
-
-  settingOneButton = createButton("pre set 1");
-  settingOneButton.size(inputWidthScale*fontSize,2*inputHeightScale*fontSize);
-  settingOneButton.position(inputXScale*width, width);
+  //prev button size for these = inputWidthScale*fontSize,2*inputHeightScale*fontSize
+  settingOneButton = createButton("61% accurate responce");
+  settingOneButton.size(buttonWidthScale*fontSize,buttonHeightScale*fontSize);
+  settingOneButton.position(buttonXScale*width+((buttonWidthScale*fontSize)*1.57), 0 + 9*fontSize);
   settingOneButton.mouseClicked(settingOneClick);
 
-  settingTwoButton = createButton("pre set 2");
-  settingTwoButton.size(inputWidthScale*fontSize,2*inputHeightScale*fontSize);
-  settingTwoButton.position(inputXScale*width, width + 1.6*fontSize);
+  settingTwoButton = createButton("75% accurate responce");
+  settingTwoButton.size(buttonWidthScale*fontSize,buttonHeightScale*fontSize);
+  settingTwoButton.position(buttonXScale*width+((buttonWidthScale*fontSize)*1.57), 0 + 12*fontSize);
   settingTwoButton.mouseClicked(settingTwoClick);
 
-  settingThreeButton = createButton("pre set 3");
-  settingThreeButton.size(inputWidthScale*fontSize,2*inputHeightScale*fontSize);
-  settingThreeButton.position(inputXScale*width, width + 3.2*fontSize);
+  settingThreeButton = createButton("80% accurate responce");
+  settingThreeButton.size(buttonWidthScale*fontSize,buttonHeightScale*fontSize);
+  settingThreeButton.position(buttonXScale*width+((buttonWidthScale*fontSize)*1.57), 0 + 15*fontSize);
   settingThreeButton.mouseClicked(settingThreeClick);
 
-  settingFourButton = createButton("pre set 4");
-  settingFourButton.size(inputWidthScale*fontSize,2*inputHeightScale*fontSize);
-  settingFourButton.position(inputXScale*width, width + 4.8*fontSize);
+  settingFourButton = createButton("93% accurate responce");
+  settingFourButton.size(buttonWidthScale*fontSize,buttonHeightScale*fontSize);
+  settingFourButton.position(buttonXScale*width+((buttonWidthScale*fontSize)*1.57), 0 + 18*fontSize);
   settingFourButton.mouseClicked(settingFourClick);
 
+  fill(255);
+  textSize(fontSize);
+  
+  text("enter a sequence of \"y\" or \"n\" \n with no spaces", buttonXScale*width+((buttonWidthScale*fontSize)*1.57), 0 + 21*fontSize);
+  text("\"y\" will result in a red chip on the left,\n \"n\" will result in a blue chip on the right", buttonXScale*width+((buttonWidthScale*fontSize)*1.57), 0 + 24*fontSize);
+
   responceSequence = createInput();
-  responceSequence.size(inputWidthScale*fontSize,2*inputHeightScale*fontSize);
-  responceSequence.position(inputXScale*width, width + 6.4*fontSize);
+  responceSequence.size(buttonWidthScale*fontSize*0.97,2*inputHeightScale*fontSize);
+  responceSequence.position(buttonXScale*width+((buttonWidthScale*fontSize)*1.56), 0 + 27*fontSize);
 
   /*
   dInput = createInput();
@@ -86,15 +92,15 @@ function setup() {
   */
   startButton = createButton("Start");
   startButton.size(buttonWidthScale*fontSize,buttonHeightScale*fontSize);
-  startButton.position(buttonXScale*width, width);
+  startButton.position(buttonXScale*width+((buttonWidthScale*fontSize)*1.57), 0);
   startButton.mouseClicked(startGame);
   stopButton = createButton("Stop");
   stopButton.size(buttonWidthScale*fontSize,buttonHeightScale*fontSize);
-  stopButton.position(buttonXScale*width, width + 3*fontSize);
+  stopButton.position(buttonXScale*width+((buttonWidthScale*fontSize)*1.57), 0 + 3*fontSize);
   stopButton.mouseClicked(stopGame);
   continueButton = createButton("Continue");
   continueButton.size(buttonWidthScale*fontSize,buttonHeightScale*fontSize);
-  continueButton.position(buttonXScale*width, width + 6*fontSize);
+  continueButton.position(buttonXScale*width+((buttonWidthScale*fontSize)*1.57), 0 + 6*fontSize);
   continueButton.mouseClicked(continueGame);
 
 }
@@ -127,12 +133,8 @@ function startGame() {
   //alert(String(responceSequence.value()[0]));
   leftChips = [];
   rightChips = [];
-  //customChips = [];
   pegs = [];
   boxEdges = [];
-  //alert("this is the problem");
-  //var customChips = responceSequence.split(""); // possible error
-  //alert("made it here");
 
   
   //d = int(dInput.value());
@@ -267,15 +269,15 @@ else if (frameCount % (timeInterval*fps) == 0 && rightChips.length < n2) {
     boxEdges[k].show();
   }
   
-  line(0,width,width,width);
-  fill(255);
-  textSize(fontSize);
-  text("61% probability of accurate responce ->", 0, width + 1.4*fontSize);
-  text("75% probability of accurate responce ->", 0, width + 2.8*fontSize);
-  text("80% probability of accurate responce ->", 0, width + 4.2*fontSize);
-  text("93% probability of accurate responce ->", 0, width + 5.6*fontSize);
-  text("enter a sequence of \"y\" or \"n\" with no spaces", 0, width + 7.0*fontSize);
-  text("\"y\" will result in a red chip on the left, \"n\" will result in a blue chip on the right", 0, width + 8.4*fontSize);
+  //line(0,width,width,width);
+  //fill(255);
+  //textSize(fontSize);
+  //text("61% probability of accurate responce ->", 0, width + 1.4*fontSize);
+  //text("75% probability of accurate responce ->", 0, width + 2.8*fontSize);
+  //text("80% probability of accurate responce ->", 0, width + 4.2*fontSize);
+  //text("93% probability of accurate responce ->", 0, width + 5.6*fontSize);
+  //text("enter a sequence of \"y\" or \"n\" with no spaces", 0, width + 7.0*fontSize);
+  //text("\"y\" will result in a red chip on the left, \"n\" will result in a blue chip on the right", 0, width + 8.4*fontSize);
   //text("The number of chips ending at the left output: "+leftOutput, 0, width + 7.0*fontSize);
   //text("The number of chips ending at the right output: "+rightOutput, 0, width + 8.4*fontSize);
 }
