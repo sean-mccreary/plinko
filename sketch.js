@@ -74,7 +74,7 @@ function setup() {
 
   responceSequence = createInput();
   responceSequence.size(buttonWidthScale*fontSize*0.97,2*inputHeightScale*fontSize);
-  responceSequence.position(buttonXScale*width+((buttonWidthScale*fontSize)*1.56), 0 + 27*fontSize);
+  responceSequence.position(buttonXScale*width+((buttonWidthScale*fontSize)*1.56), 0 + 30.5*fontSize);//from 27-35
 
   /*
   dInput = createInput();
@@ -211,6 +211,16 @@ function draw() {
   leftOutput = 0; 
   rightOutput = 0;
   sequence = responceSequence.value().split("");
+  if (sequence.length == 0){
+    sequence.push("y");
+    sequence.push("n");
+    sequence.push("y");
+    sequence.push("n");
+    sequence.push("y");
+    sequence.push("n");
+    sequence.push("y");
+    sequence.push("n");
+  }
   
   
 
